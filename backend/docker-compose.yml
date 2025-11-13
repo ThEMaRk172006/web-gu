@@ -1,0 +1,74 @@
+version: '3.8'version: '3.8'version: '3.8'
+
+
+
+services:
+
+  mysql:
+
+    image: mysql:8.0services:services:
+
+    container_name: silverleaf-mysql
+
+    environment:  mysql:  mysql:
+
+      MYSQL_ROOT_PASSWORD: password
+
+      MYSQL_DATABASE: silverleaf_db    image: mysql:8.0    image: mysql:8.0
+
+    ports:
+
+      - "3306:3306"    container_name: silverleaf_mysql    container_name: silver-leaf-mysql
+
+    volumes:
+
+      - mysql_data:/var/lib/mysql    environment:    environment:
+
+
+
+volumes:      MYSQL_ROOT_PASSWORD: root      MYSQL_ROOT_PASSWORD: root
+
+  mysql_data:
+
+      MYSQL_DATABASE: silverleaf_db      MYSQL_DATABASE: silver_leaf
+
+    ports:      MYSQL_USER: silverleaf
+
+      - "3306:3306"      MYSQL_PASSWORD: silverleaf123
+
+    volumes:    ports:
+
+      - mysql_data:/var/lib/mysql      - "3306:3306"
+
+    networks:    volumes:
+
+      - silverleaf_net      - mysql_data:/var/lib/mysql
+
+    healthcheck:
+
+  phpmyadmin:      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+
+    image: phpmyadmin:latest      timeout: 20s
+
+    container_name: silverleaf_phpmyadmin      retries: 10
+
+    environment:
+
+      PMA_HOST: mysqlvolumes:
+
+      PMA_USER: root  mysql_data:
+
+      PMA_PASSWORD: root
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    networks:
+      - silverleaf_net
+
+volumes:
+  mysql_data:
+
+networks:
+  silverleaf_net:
+    driver: bridge
