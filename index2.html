@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Silver Leaf - A trusted platform connecting senior care home owners with families seeking heartfelt care">
+    <meta name="keywords" content="senior care, nursing home, elderly care, Thailand care homes">
+    <title>Silver Leaf - Home is where life feels familiar</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            animation: slideDown 0.3s;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 20px;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .modal h2 {
+            margin-bottom: 1.5rem;
+            color: #d4a574;
+            clear: both;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #d4a574;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .search-filters {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Header */
+        header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.2rem;
+            color: #d4a574;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .logo-icon {
+            width: 30px;
+            height: 30px;
+            color: #d4a574;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #d4a574;
+        }
+
+        .auth-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .auth-links a {
+            color: #666;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .auth-links a:hover {
+            background: #f5f0e8;
+            color: #d4a574;
+        }
+
+        .mobile-menu {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(255,255,255,0.85), rgba(245,240,232,0.95)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23f5f0e8" width="1200" height="600"/><circle cx="200" cy="100" r="150" fill="%23e8dcc8" opacity="0.3"/><circle cx="1000" cy="400" r="200" fill="%23d4a574" opacity="0.2"/></svg>');
+            background-size: cover;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero .silver {
+            color: #8b8b8b;
+        }
+
+        .hero .leaf {
+            color: #d4a574;
+        }
+
+        .hero-tagline {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .hero-description {
+            max-width: 800px;
+            margin: 2rem auto;
+            text-align: left;
+        }
+
+        .hero-description p {
+            color: #666;
+            margin-bottom: 0.5rem;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #d4a574;
+            color: white;
+            box-shadow: 0 4px 6px rgba(212, 165, 116, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #c49564;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(212, 165, 116, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #666;
+            border: 2px solid #d4a574;
+        }
+
+        .btn-secondary:hover {
+            background: #f5f0e8;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .intro {
+            text-align: left;
+            margin-bottom: 4rem;
+        }
+
+        .intro h2 {
+            color: #d4a574;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .intro p {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        /* Testimonial */
+        .testimonial {
+            background: linear-gradient(135deg, #f9f9f9 0%, #f5f0e8 100%);
+            padding: 4rem 2rem;
+            margin: 4rem 0;
+        }
+
+        .testimonial-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .testimonial-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-image::after {
+            content: '👩‍💼';
+            position: absolute;
+            font-size: 100px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .testimonial-text {
+            text-align: left;
+        }
+
+        .testimonial-text p {
+            color: #666;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: #333;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: white;
+            border-left: 4px solid #d4a574;
+            border-radius: 5px;
+        }
+
+        /* Featured Communities */
+        .featured {
+            padding: 4rem 2rem;
+            background: white;
+        }
+
+        .featured h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .communities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .community-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .community-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .community-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #f5f0e8 0%, #e8dcc8 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .community-image::after {
+            content: '🏡';
+            position: absolute;
+            font-size: 80px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.6;
+        }
+
+        .community-info {
+            padding: 1.5rem;
+        }
+
+        .community-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: #333;
+        }
+
+        .community-info p {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #d4a574;
+            font-weight: 500;
+        }
+
+        .stars {
+            color: #f5b301;
+            font-size: 1.1rem;
+        }
+
+        /* Experts Section */
+        .experts {
+            background: linear-gradient(135deg, #f5f0e8 0%, #e8dcc8 100%);
+            padding: 4rem 2rem;
+        }
+
+        .experts h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .experts-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .experts-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .expert-card {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 2rem;
+            align-items: center;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .expert-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .expert-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .expert-image::after {
+            content: '👨‍⚕️';
+            position: absolute;
+            font-size: 100px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .expert-card:nth-child(2) .expert-image::after {
+            content: '👩‍💼';
+        }
+
+        .expert-info h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .expert-info h4 {
+            color: #d4a574;
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .expert-info p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #333 0%, #2a2a2a 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .footer-logo {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+            color: #ccc;
+        }
+
+        footer strong {
+            color: #d4a574;
+        }
+
+        .footer-links {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #444;
+        }
+
+        .footer-links a {
+            color: #d4a574;
+            text-decoration: none;
+            margin: 0 1rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #e8b884;
+        }
+
+        /* Success Message */
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 3000;
+            animation: slideInRight 0.3s;
+            display: none;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .testimonial-content,
+            .expert-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .testimonial-image,
+            .expert-image {
+                margin: 0 auto;
+            }
+
+            .communities-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero {
+                padding: 4rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Success Message -->
+    <div id="successMessage" class="success-message">
+        <strong>✓</strong> <span id="successText">Success!</span>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo" onclick="scrollToTop()">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.42-2A6 6 0 0 1 12 17c3.31 0 6 2.69 6 6v1h2v-1c0-4.42-3.58-8-8-8-1.23 0-2.39.28-3.44.76.36-.81.75-1.59 1.15-2.34C12.53 10.5 16.67 9 17 9l.06-1z"/>
+                </svg>
+                <span>Silver Leaf</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" onclick="scrollToTop()">Home</a></li>
+                <li><a href="#find-homes" onclick="scrollToSection('featured')">Find Homes</a></li>
+                <li><a href="#list" onclick="openModal('listModal')">List Your Home</a></li>
+            </ul>
+            <div class="auth-links">
+                <a href="#register" onclick="openModal('registerModal')">Register</a>
+                <a href="#login" onclick="openModal('loginModal')">Login</a>
+            </div>
+            <div class="mobile-menu" onclick="toggleMobileMenu()">☰</div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1><span class="silver">SILVER</span> <span class="leaf">LEAF</span></h1>
+        <p class="hero-tagline">Home is where life feels familiar</p>
+        <div class="hero-description">
+            <p><strong>Helping to Find a comforting home for your loved ones</strong></p>
+            <p>Supporting a nationwide network of care homes — providing heartfelt care.</p>
+            <p>Search, compare, and connect with verified care providers across Thailand.</p>
+        </div>
+        <div class="hero-buttons">
+            <button class="btn btn-primary" onclick="openModal('searchModal')">
+                <span>🔍</span>
+                Find Homes
+            </button>
+            <button class="btn btn-secondary" onclick="openModal('listModal')">
+                <span>📋</span>
+                List Your Home
+            </button>
+        </div>
+    </section>
+
+    <!-- Intro Section -->
+    <div class="container">
+        <div class="intro">
+            <h2>🌿 Silver Leaf — A place where care feels like home.</h2>
+            <p>Silver Leaf is a trusted platform that connects senior care home owners with families seeking safe, comfortable, and heartfelt care for their loved ones.</p>
+            <p>We bring together verified care homes from across the nationwide, allowing families to search, compare, and connect with care providers that best suit their needs.</p>
+            <p><strong>Because home is more than just a place —</strong></p>
+            <p>It's where comfort, trust, and compassion come together.</p>
+        </div>
+    </div>
+
+    <!-- Testimonial -->
+    <section class="testimonial">
+        <div class="testimonial-content">
+            <div class="testimonial-image"></div>
+            <div class="testimonial-text">
+                <p>Jenny enjoys working with families and seniors, assisting them with their senior care and service needs.</p>
+                <p><em>"There is great satisfaction when I find the right services for a senior in need. I give a family peace of mind. She says "I'm not just finding options; I'm becoming every step in a senior's journey and I know that I am making a difference in a family's life."</em></p>
+                <p><strong>Client Testimonial:</strong> "Jenny was 100 times more helpful than what we could have expected. Amazed at the wealth of knowledge and support. Within one day we had all options available to us covered and discussed with an abundance of ideas and helpful direction. Thank you so much for making this difficult task easy."</p>
+                <div class="testimonial-author">
+                    <strong>JENNY</strong><br>
+                    Senior Family Advisor, 6 Years of Experience
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Communities -->
+    <section class="featured">
+        <h2>Featured Communities</h2>
+        <div class="communities-grid">
+            <div class="community-card" onclick="showCommunityDetails('Yusokh Care Solution', '350 So Sukhumvit 54, Phra Khanong Tai, Phra Khanong District, Bangkok 10260, Thailand', '4', '7')">
+                <div class="community-image"></div>
+                <div class="community-info">
+                    <h3>Yusokh Care Solution</h3>
+                    <p>350 So Sukhumvit 54, Phra Khanong Tai, Phra Khanong District, Bangkok 10260, Thailand</p>
+                    <div class="rating">
+                        <span class="stars">★★★★☆</span>
+                        <span>7 Reviews</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="community-card" onclick="showCommunityDetails('Ban Lalisa Sansai', 'Mae Faek Mai Subdistrict, Sansai District Chiang Mai 50210, Thailand', '4', '19')">
+                <div class="community-image"></div>
+                <div class="community-info">
+                    <h3>Ban Lalisa Sansai</h3>
+                    <p>Mae Faek Mai Subdistrict, Sansai District Chiang Mai 50210, Thailand</p>
+                    <div class="rating">
+                        <span class="stars">★★★★☆</span>
+                        <span>19 Reviews</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="community-card" onclick="showCommunityDetails('Baan Horniamduai', 'No. 8, Soi Yothanon Bangrak 44, Ladyao Subdistrict, Chatuchak District, Bangkok 10900, Thailand', '3', '10')">
+                <div class="community-image"></div>
+                <div class="community-info">
+                    <h3>Baan Horniamduai</h3>
+                    <p>No. 8, Soi Yothanon Bangrak 44, Ladyao Subdistrict, Chatuchak District, Bangkok 10900, Thailand</p>
+                    <div class="rating">
+                        <span class="stars">★★★☆☆</span>
+                        <span>10 Reviews</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="community-card" onclick="showCommunityDetails('Naya Residence', '1737 Wat Mongkhon Road, Klang, Suan Luang District, Nonthaburi 11000, Thailand', '5', '23')">
+                <div class="community-image"></div>
+                <div class="community-info">
+                    <h3>Naya Residence</h3>
+                    <p>1737 Wat Mongkhon Road, Klang, Suan Luang District, Nonthaburi 11000, Thailand</p>
+                    <div class="rating">
+                        <span class="stars">★★★★★</span>
+                        <span>23 Reviews</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="community-card" onclick="showCommunityDetails('AyoWal Nursing Home', 'No. 324, Soi Mea Phan 22, Sansai District, Chiang Mai Province 50300, Thailand', '4', '17')">
+                <div class="community-image"></div>
+                <div class="community-info">
+                    <h3>AyoWal Nursing Home</h3>
+                    <p>No. 324, Soi Mea Phan 22, Sansai District, Chiang Mai Province 50300, Thailand</p>
+                    <div class="rating">
+                        <span class="stars">★★★★☆</span>
+                        <span>17 Reviews</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="community-card" onclick="showCommunityDetails('AyoWall Skilled Nursing', 'No.no. Moo 3, Si Bagna District, Chon Buri Province 20220, Thailand', '2', '10')">
+                <div class="community-image"></div>
+                <div class="community-info">
+                    <h3>AyoWall Skilled Nursing</h3>
+                    <p>No.no. Moo 3, Si Bagna District, Chon Buri Province 20220, Thailand</p>
+                    <div class="rating">
+                        <span class="stars">★★☆☆☆</span>
+                        <span>10 Reviews</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experts Section -->
+    <section class="experts">
+        <h2>Meet the Experts</h2>
+        <p class="experts-subtitle">We collaborate with a team of subject-matter experts to create relevant and accurate resources for you and your family.</p>
+        
+        <div class="experts-grid">
+            <div class="expert-card">
+                <div class="expert-image"></div>
+                <div class="expert-info">
+                    <h3>Dr. Mulli Rothleard</h3>
+                    <h4>Associate Clinical Social Worker, PhD, MSW, ASW</h4>
+                    <p>Dr. Rothleard is a gerontologist and clinical social worker passionate about improving the quality of life for older adults, specifically those with Alzheimer's disease, as well as reducing stereotypes surrounding mental illness, aging and dementia.</p>
+                </div>
+            </div>
+
+            <div class="expert-card">
+                <div class="expert-image"></div>
+                <div class="expert-info">
+                    <h3>Susann Crawford</h3>
+                    <h4>SVP of Sales, 10 years with Caring</h4>
+                    <p>Susann joined Caring in 2014 as a Family Advisor. She was recently named Senior Vice President in 2023 and leads our teams in servicing families across the country. As one of our team's greatest heroes, her grandparents, helped cultivate her passion and purpose in this field.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">🌿</div>
+        <p><strong>24/7 Services Hotline: +66 87-449-2694</strong></p>
+        <p>Email: info@silverleaf.co.th</p>
+        <p>Address: 350/16 Sukhumvit 54, Soi E-1-4, Phra Khanong District, Bangkok 10260, Thailand</p>
+        <div class="footer-links">
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#terms">Terms of Service</a>
+            <a href="#contact">Contact Us</a>
+        </div>
+        <p style="margin-top: 2rem; color: #888;">© 2025 Silver Leaf. All rights reserved.</p>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Login to Silver Leaf</h2>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="loginEmail" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+                <p style="margin-top: 1rem; text-align: center; color: #666;">
+                    Don't have an account? <a href="#" onclick="closeModal('loginModal'); openModal('registerModal');" style="color: #d4a574;">Register here</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            <h2>Create Your Account</h2>
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="regName" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="regEmail" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="regPhone" required placeholder="+66 XX-XXX-XXXX">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="regPassword" required placeholder="••••••••" minlength="8">
+                </div>
+                <div class="form-group">
+                    <label>User Type</label>
+                    <select id="regUserType" required>
+                        <option value="">Select your role...</option>
+                        <option value="family">Family Member (Looking for care)</option>
+                        <option value="caregiver">Care Home Owner (Providing care)</option>
+                        <option value="advisor">Care Advisor</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+                <p style="margin-top: 1rem; text-align: center; color: #666;">
+                    Already have an account? <a href="#" onclick="closeModal('registerModal'); openModal('loginModal');" style="color: #d4a574;">Login here</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div id="searchModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <span class="close" onclick="closeModal('searchModal')">&times;</span>
+            <h2>Find Your Perfect Care Home</h2>
+            <form onsubmit="handleSearch(event)">
+                <div class="search-filters">
+                    <div class="filter-row">
+                        <div class="form-group">
+                            <label>Location</label>
+                            <select id="searchLocation">
+                                <option value="">All Locations</option>
+                                <option value="bangkok">Bangkok</option>
+                                <option value="chiangmai">Chiang Mai</option>
+                                <option value="phuket">Phuket</option>
+                                <option value="pattaya">Pattaya</option>
+                                <option value="nonthaburi">Nonthaburi</option>
+                                <option value="chonburi">Chon Buri</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Care Type</label>
+                            <select id="searchCareType">
+                                <option value="">All Types</option>
+                                <option value="nursing">Nursing Home</option>
+                                <option value="assisted">Assisted Living</option>
+                                <option value="memory">Memory Care</option>
+                                <option value="independent">Independent Living</option>
+                                <option value="respite">Respite Care</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-row">
+                        <div class="form-group">
+                            <label>Monthly Budget (THB)</label>
+                            <select id="searchBudget">
+                                <option value="">Any Budget</option>
+                                <option value="low">Under 15,000</option>
+                                <option value="mid">15,000 - 30,000</option>
+                                <option value="high">30,000 - 50,000</option>
+                                <option value="premium">Over 50,000</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Minimum Rating</label>
+                            <select id="searchRating">
+                                <option value="">Any Rating</option>
+                                <option value="5">★★★★★ (5 Stars)</option>
+                                <option value="4">★★★★☆ (4+ Stars)</option>
+                                <option value="3">★★★☆☆ (3+ Stars)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Special Requirements (Optional)</label>
+                        <textarea id="searchRequirements" placeholder="e.g., Dementia care, Physical therapy, Wheelchair accessible"></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Search Care Homes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- List Home Modal -->
+    <div id="listModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <span class="close" onclick="closeModal('listModal')">&times;</span>
+            <h2>List Your Care Home</h2>
+            <form onsubmit="handleListHome(event)">
+                <div class="form-group">
+                    <label>Care Home Name</label>
+                    <input type="text" id="listHomeName" required placeholder="Your Care Home Name">
+                </div>
+                <div class="form-group">
+                    <label>Full Address</label>
+                    <textarea id="listAddress" required placeholder="Street address, District, Province, Postal Code"></textarea>
+                </div>
+                <div class="filter-row">
+                    <div class="form-group">
+                        <label>Care Type</label>
+                        <select id="listCareType" required>
+                            <option value="">Select type...</option>
+                            <option value="nursing">Nursing Home</option>
+                            <option value="assisted">Assisted Living</option>
+                            <option value="memory">Memory Care</option>
+                            <option value="independent">Independent Living</option>
+                            <option value="respite">Respite Care</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Capacity (Beds)</label>
+                        <input type="number" id="listCapacity" required placeholder="e.g., 20" min="1">
+                    </div>
+                </div>
+                <div class="filter-row">
+                    <div class="form-group">
+                        <label>Monthly Rate (THB)</label>
+                        <input type="number" id="listRate" required placeholder="e.g., 25000" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Phone</label>
+                        <input type="tel" id="listPhone" required placeholder="+66 XX-XXX-XXXX">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Website (Optional)</label>
+                    <input type="url" id="listWebsite" placeholder="https://www.yourcarehome.com">
+                </div>
+                <div class="form-group">
+                    <label>Description & Services</label>
+                    <textarea id="listDescription" required placeholder="Describe your care home facilities, services, amenities, and what makes your home special..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Specializations (Optional)</label>
+                    <textarea id="listSpecializations" placeholder="e.g., Alzheimer's care, Stroke rehabilitation, Diabetes management"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Listing</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Community Details Modal -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <span class="close" onclick="closeModal('detailsModal')">&times;</span>
+            <div id="detailsContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Modal Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Success Message
+        function showSuccess(message) {
+            const successMsg = document.getElementById('successMessage');
+            document.getElementById('successText').textContent = message;
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 3000);
+        }
+
+        // Form Handlers
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            showSuccess('Welcome back! You have successfully logged in.');
+            closeModal('loginModal');
+            // In production: Send to backend API
+            console.log('Login attempt:', { email });
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            const formData = {
+                name: document.getElementById('regName').value,
+                email: document.getElementById('regEmail').value,
+                phone: document.getElementById('regPhone').value,
+                userType: document.getElementById('regUserType').value
+            };
+            showSuccess('Account created successfully! Please check your email to verify.');
+            closeModal('registerModal');
+            // In production: Send to backend API
+            console.log('Registration data:', formData);
+        }
+
+        function handleSearch(event) {
+            event.preventDefault();
+            const searchData = {
+                location: document.getElementById('searchLocation').value,
+                careType: document.getElementById('searchCareType').value,
+                budget: document.getElementById('searchBudget').value,
+                rating: document.getElementById('searchRating').value,
+                requirements: document.getElementById('searchRequirements').value
+            };
+            showSuccess('Searching for care homes matching your criteria...');
+            closeModal('searchModal');
+            scrollToSection('featured');
+            // In production: Send to backend API and display filtered results
+            console.log('Search criteria:', searchData);
+        }
+
+        function handleListHome(event) {
+            event.preventDefault();
+            const listingData = {
+                homeName: document.getElementById('listHomeName').value,
+                address: document.getElementById('listAddress').value,
+                careType: document.getElementById('listCareType').value,
+                capacity: document.getElementById('listCapacity').value,
+                rate: document.getElementById('listRate').value,
+                phone: document.getElementById('listPhone').value,
+                website: document.getElementById('listWebsite').value,
+                description: document.getElementById('listDescription').value,
+                specializations: document.getElementById('listSpecializations').value
+            };
+            showSuccess('Listing submitted! Our team will review and contact you within 24-48 hours.');
+            closeModal('listModal');
+            // In production: Send to backend API
+            console.log('Listing data:', listingData);
+        }
+
+        // Show Community Details
+        function showCommunityDetails(name, address, rating, reviews) {
+            const starsHTML = '★'.repeat(parseInt(rating)) + '☆'.repeat(5 - parseInt(rating));
+            const detailsHTML = `
+                <h2>${name}</h2>
+                <div style="color: #f5b301; font-size: 1.2rem; margin: 1rem 0;">
+                    ${starsHTML} <span style="color: #666; font-size: 1rem;">(${reviews} Reviews)</span>
+                </div>
+                <div style="margin: 2rem 0;">
+                    <h3 style="color: #d4a574; margin-bottom: 1rem;">📍 Location</h3>
+                    <p style="color: #666; line-height: 1.8;">${address}</p>
+                </div>
+                <div style="margin: 2rem 0;">
+                    <h3 style="color: #d4a574; margin-bottom: 1rem;">🏥 Services & Amenities</h3>
+                    <ul style="color: #666; line-height: 2;">
+                        <li>24/7 Professional Nursing Care</li>
+                        <li>Medication Management</li>
+                        <li>Daily Activities & Recreation</li>
+                        <li>Nutritious Meals (3 meals + snacks)</li>
+                        <li>Physical Therapy</li>
+                        <li>Emergency Response System</li>
+                        <li>Wheelchair Accessible</li>
+                        <li>Garden & Outdoor Spaces</li>
+                    </ul>
+                </div>
+                <div style="margin: 2rem 0;">
+                    <h3 style="color: #d4a574; margin-bottom: 1rem;">💰 Pricing</h3>
+                    <p style="color: #666;">Starting from <strong style="color: #d4a574; font-size: 1.2rem;">฿${15000 + parseInt(rating) * 5000}/month</strong></p>
+                    <p style="color: #888; font-size: 0.9rem; margin-top: 0.5rem;">*Prices vary based on care level and room type</p>
+                </div>
+                <div style="margin: 2rem 0;">
+                    <h3 style="color: #d4a574; margin-bottom: 1rem;">📞 Contact Information</h3>
+                    <p style="color: #666;">Phone: <strong>+66 87-449-2694</strong></p>
+                    <p style="color: #666;">Email: <strong>info@silverleaf.co.th</strong></p>
+                </div>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="requestTour('${name}')">
+                    Schedule a Visit
+                </button>
+            `;
+            document.getElementById('detailsContent').innerHTML = detailsHTML;
+            openModal('detailsModal');
+        }
+
+        // Request Tour
+        function requestTour(homeName) {
+            showSuccess(`Tour request sent for ${homeName}! We'll contact you shortly.`);
+            closeModal('detailsModal');
+            // In production: Send to backend API
+            console.log('Tour requested for:', homeName);
+        }
+
+        // Scroll Functions
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function scrollToSection(sectionClass) {
+            const section = document.querySelector('.' + sectionClass);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'flex';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.left = '0';
+                navLinks.style.right = '0';
+                navLinks.style.background = 'white';
+                navLinks.style.padding = '1rem';
+                navLinks.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+            }
+        }
+
+        // Smooth scroll on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add smooth scrolling to all anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href !== '#' && !href.includes('Modal')) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+                });
+            });
+
+            // Add animation on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe cards for animation
+            document.querySelectorAll('.community-card, .expert-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    if (modal.style.display === 'block') {
+                        modal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            }
+        });
+
+        // Console welcome message
+        console.log('%c🌿 Welcome to Silver Leaf!', 'font-size: 20px; color: #d4a574; font-weight: bold;');
+        console.log('%cThis is a demo website. For production use, connect to your backend API.', 'font-size: 12px; color: #666;');
+    </script>
+</body>
+</html>
